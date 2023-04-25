@@ -57,8 +57,10 @@ body {
 .next {
   right: 20px;
 }
+
+
 input[type="file"] {
-  display: block;
+  display: flex;
   margin: 10px auto;
   font-size: 1rem;
   padding: 10px;
@@ -87,7 +89,19 @@ input[type="file"] {
 	from{opacity: 1;}
 	to{opacity: 0;}
 }
-
+.autoplayBtn, .autoplayReverseBtn, .stopAutoplayBtn{
+	position: flex;
+	float: left;
+	margin-left: 2.5%;
+	margin-right: 2.5%;
+	font-size: 25px;
+	color: #fff;
+	background-color: #333;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
 
 
     </style>
@@ -97,11 +111,21 @@ input[type="file"] {
       <img id="slajd" src="" alt="Slajd" class="active">
     </div>
     <br>
-    <button    class="prev" onclick="poprzedniSlajd()">Poprzedni slajd</button>
-    <button class="next" onclick="nastepnySlajd()">Następny slajd</button>
+	<button class="prev" onclick="poprzedniSlajd()">Poprzedni slajd</button>
+	<button class="next" onclick="nastepnySlajd()">Następny slajd</button>
     <br>
-    <input class="custom-file-upload" type="file" accept="image/*,.gif"onchange="dodajSlajd(event)">
-    
+	<div style="display: flex; height: fit-content; width: fit-content; align-items:center; justify-content: center; text-align: center; padding-left: 40%;">
+		<input class="custom-file-upload" type="file" accept="image/*,.gif"onchange="dodajSlajd(event)">
+    </div>
+	<div class="autoplay">
+		<button class="autoplayBtn" onclick="autoplay()">włącz automatyczne przewijanie slajdów</button>
+	</div>
+	<div class="autoplayReverse">
+		<button class="autoplayReverseBtn" onclick="autoplayReverse()">włącz automatyczne przewijanie slajdów od tyłu</button>
+	</div>
+	<div class="stopAutoplay">
+		<button class="stopAutoplayBtn" onclick="stopAutoplay()">wyłącz automatyczne przewijanie slajdów</button>
+	</div>
     <script>
       var slajdy = [];
       var aktualnySlajd = 0;
@@ -141,6 +165,26 @@ input[type="file"] {
           pokazSlajd(aktualnySlajd - 1);
         }
       }
+	  function autoplay(){
+		let intervalId0 = setInterval(co15sDoPrzodu, 15000);
+	  }
+	  function co15sDoPrzodu(){
+			if (aktualnySlajd < slajdy.length - 1) {
+				pokazSlajd(aktualnySlajd + 1);
+			}
+		}
+	  function autoplayReverse(){
+		let intervalId1 = setInterval(co15sDoTylu, 15000);
+	  }
+	  function co15sDoTylu(){
+        if (aktualnySlajd > 0) {
+          pokazSlajd(aktualnySlajd - 1);
+        }
+	  }
+	  function stopAutoplay(){
+		clearInterval(intervalId0, intervalId1)
+	  }
+	  
     </script>
   </body>
 </html>
