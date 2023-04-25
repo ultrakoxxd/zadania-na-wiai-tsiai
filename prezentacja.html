@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="PL">
+  <head>
+    <meta charset="UTF-8">
+    <title>Prezentacja</title>
+    <style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.slide {
+  position: relative;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  color: #fff;
+  background-color: #333;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.prev {
+  left: 20px;
+}
+
+.next {
+  right: 20px;
+}
+input[type="file"] {
+  display: block;
+  margin: 10px auto;
+  font-size: 1rem;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  cursor: pointer;
+}
+
+
+
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+      <img id="slajd" src="" alt="Slajd">
+    </div>
+    <br>
+    <button    class="prev" onclick="poprzedniSlajd()">Poprzedni slajd</button>
+    <button class="next" onclick="nastepnySlajd()">Następny slajd</button>
+    <br>
+    <input class="custom-file-upload" type="file" accept="image/*,.gif"onchange="dodajSlajd(event)">
+    
+    <script>
+      var slajdy = [];
+      var aktualnySlajd = 0;
+
+      function dodajSlajd(event) {
+        var plik = event.target.files[0];
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          slajdy.push(event.target.result);
+          if (slajdy.length === 1) {
+            pokazSlajd(0);
+          }
+        }
+        reader.readAsDataURL(plik);
+      }
+
+      function pokazSlajd(nr) {
+        aktualnySlajd = nr;
+        document.getElementById("slajd").src = slajdy[nr];
+      }
+
+      function nastepnySlajd() {
+        if (aktualnySlajd < slajdy.length - 1) {
+          pokazSlajd(aktualnySlajd + 1);
+        }
+      }
+
+      function poprzedniSlajd() {
+        if (aktualnySlajd > 0) {
+          pokazSlajd(aktualnySlajd - 1);
+        }
+      }
+    </script>
+  </body>
+</html>
