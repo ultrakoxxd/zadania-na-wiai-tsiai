@@ -23,12 +23,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .slide img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  z-index: 1;
 }
 
 .prev, .next {
@@ -42,6 +47,7 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  z-index: 2;
 }
 
 .prev {
@@ -61,6 +67,26 @@ input[type="file"] {
   background-color: #f8f8f8;
   cursor: pointer;
 }
+.slide img.active{
+	opacity: 1;
+}
+
+.slide img.fade-in{
+	opacity: 1;
+	animation: fadeIn 0.5s ease-in-out;
+}
+.slide img.fade-out{
+	opacity: 0;
+	animation: fadeOut 0.5s ease-in-out;
+}
+@keyframes fadeIn{
+	from{opacity: 0;}
+	to{opacity: 1;}
+}
+@keyframes fadeOut{
+	from{opacity: 1;}
+	to{opacity: 0;}
+}
 
 
 
@@ -68,7 +94,7 @@ input[type="file"] {
   </head>
   <body>
     <div class="slide">
-      <img id="slajd" src="" alt="Slajd">
+      <img id="slajd" src="" alt="Slajd" class="active">
     </div>
     <br>
     <button    class="prev" onclick="poprzedniSlajd()">Poprzedni slajd</button>
@@ -94,7 +120,14 @@ input[type="file"] {
 
       function pokazSlajd(nr) {
         aktualnySlajd = nr;
-        document.getElementById("slajd").src = slajdy[nr];
+        var slajd = document.getElementById("slajd");
+		slajd.classList.remove("fade-in");
+		slajd.classList.add("fade-out");
+		setTimeout(function(){
+			slajd.classList.remove("active","fade-out");
+			slajd.src = slajdy[nr]
+			slajd.classList.add("active","fade-in");
+		}, 500);
       }
 
       function nastepnySlajd() {
