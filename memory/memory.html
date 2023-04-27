@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Memory Game</title>
+   <link rel="stylesheet" href="memory.css">
+  <style>
+    .card {
+      width: 100px;
+      height: 100px;
+      background-color: gray;
+      margin: 5px;
+      display: inline-block;
+      font-size: 50px;
+      color: white;
+      text-align: center;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="board"></div>
+  <script>
+    var cards = ['&#x1F600;', '&#x1F601;', '&#x1F602;', '&#x1F603;', '&#x1F604;', '&#x1F605;', '&#x1F606;', '&#x1F607;', '&#x1F608;', '&#x1F609;', '&#x1F60A;', '&#x1F60B;', '&#x1F60C;', '&#x1F60D;', '&#x1F60E;', '&#x1F60F;', '&#x1F610;', '&#x1F611;', '&#x1F612;', '&#x1F613;', '&#x1F614;', '&#x1F615;', '&#x1F616;', '&#x1F617;'];
+    var chosenCards = [];
+    var chosenCardsIds = [];
+    var cardsWon = [];
+
+    function createBoard() {
+      for (var i = 0; i < cards.length*2; i++) {
+        var card = document.createElement('div');
+        card.className = 'card';
+        card.setAttribute('data-id', i);
+        card.innerHTML = '&#x1F0A' + (i+1).toString(16); // kod HTML dla karty tylniej
+        card.addEventListener('click', flipCard);
+        document.getElementById('board').appendChild(card);
+      }
+    }
+
+    function flipCard() {
+      var cardId = this.getAttribute('data-id');
+      chosenCards.push(cards[cardId % cards.length]);
+      chosenCardsIds.push(cardId);
+      this.innerHTML = cards[cardId % cards.length];
+      this.style.backgroundColor = 'white';
+      if (chosenCards.length === 2) {
+        setTimeout(checkForMatch, 500);
+      }
+    }
+
+    function checkForMatch() {
+      var cardsList = document.getElementsByClassName('card');
+      var optionOneId = chosenCardsIds[0];
+      var optionTwoId = chosenCardsIds[1];
+      if (chosenCards[0] === chosenCards[1]) {
+        alert('You found a match!');
+        cardsList[optionOneId].style.backgroundColor = 'green';
+        cardsList[optionTwoId].style.backgroundColor = 'green';
+        cardsWon.push(chosenCards);
+      } else {
+        alert('Sorry, try again.');
+        cardsList[optionOneId].innerHTML = '&#x1F0A' + (optionOneId+1).toString(16);
+        cardsList[optionOneId].style.backgroundColor = 'gray';
+        cardsList[optionTwoId].innerHTML = '&#x1F0A' + (optionTwoId+1).toString(16);
+        cardsList[optionTwoId].style.backgroundColor = 'gray';
+      }
+      chosenCards = [];
+      chosenCardsIds = [];
+      if (cardsWon.length === cards.length) {
+        alert('Congratulations, you won!');
+      }
+    }
+
+    createBoard();
+  </script>
+</body>
+</html>
