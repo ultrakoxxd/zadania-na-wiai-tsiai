@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="PL">
+  <head>
+    <meta charset="UTF-8">
+    <title>Prezentacja</title>
+    <style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.slide {
+  position: relative;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.slide img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  z-index: 1;
+}
+
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  color: #fff;
+  background-color: #333;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.prev {
+  left: 20px;
+}
+
+.next {
+  right: 20px;
+}
+
+
+input[type="file"] {
+  display: flex;
+  margin: 10px auto;
+  font-size: 1rem;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  cursor: pointer;
+}
+.slide img.active{
+	opacity: 1;
+}
+
+.slide img.fade-in{
+	opacity: 1;
+	animation: fadeIn 0.5s ease-in-out;
+}
+.slide img.fade-out{
+	opacity: 0;
+	animation: fadeOut 0.5s ease-in-out;
+}
+@keyframes fadeIn{
+	from{opacity: 0;}
+	to{opacity: 1;}
+}
+@keyframes fadeOut{
+	from{opacity: 1;}
+	to{opacity: 0;}
+}
+.autoplayBtn, .autoplayReverseBtn, .stopAutoplayBtn{
+	position: flex;
+	float: left;
+	margin-left: 2.5%;
+	margin-right: 2.5%;
+	font-size: 25px;
+	color: #fff;
+	background-color: #333;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+      <img id="slajd" src="" alt="Slajd" class="active">
+    </div>
+    <br>
+	<button class="prev" onclick="poprzedniSlajd()">Poprzedni slajd</button>
+	<button class="next" onclick="nastepnySlajd()">Następny slajd</button>
+    <br>
+	<div style="display: flex; height: fit-content; width: fit-content; align-items:center; justify-content: center; text-align: center; padding-left: 40%;">
+		<input class="custom-file-upload" type="file" accept="image/*,.gif"onchange="dodajSlajd(event)">
+    </div>
+	<div class="autoplay">
+		<button class="autoplayBtn" onclick="autoplay()">włącz automatyczne przewijanie slajdów</button>
+	</div>
+	<div class="autoplayReverse">
+		<button class="autoplayReverseBtn" onclick="autoplayReverse()">włącz automatyczne przewijanie slajdów od tyłu</button>
+	</div>
+	<div class="stopAutoplay">
+		<button class="stopAutoplayBtn" onclick="stopAutoplay()">wyłącz automatyczne przewijanie slajdów</button>
+	</div>
+    <script>
+      var slajdy = [];
+      var aktualnySlajd = 0;
+
+      function dodajSlajd(event) {
+        var plik = event.target.files[0];
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          slajdy.push(event.target.result);
+          if (slajdy.length === 1) {
+            pokazSlajd(0);
+          }
+        }
+        reader.readAsDataURL(plik);
+      }
+
+      function pokazSlajd(nr) {
+        aktualnySlajd = nr;
+        var slajd = document.getElementById("slajd");
+		slajd.classList.remove("fade-in");
+		slajd.classList.add("fade-out");
+		setTimeout(function(){
+			slajd.classList.remove("active","fade-out");
+			slajd.src = slajdy[nr]
+			slajd.classList.add("active","fade-in");
+		}, 500);
+      }
+
+      function nastepnySlajd() {
+        if (aktualnySlajd < slajdy.length - 1) {
+          pokazSlajd(aktualnySlajd + 1);
+        }
+      }
+
+      function poprzedniSlajd() {
+        if (aktualnySlajd > 0) {
+          pokazSlajd(aktualnySlajd - 1);
+        }
+      }
+	  function autoplay(){
+		let intervalId0 = setInterval(co15sDoPrzodu, 15000);
+	  }
+	  function co15sDoPrzodu(){
+			if (aktualnySlajd < slajdy.length - 1) {
+				pokazSlajd(aktualnySlajd + 1);
+			}
+		}
+	  function autoplayReverse(){
+		let intervalId1 = setInterval(co15sDoTylu, 15000);
+	  }
+	  function co15sDoTylu(){
+        if (aktualnySlajd > 0) {
+          pokazSlajd(aktualnySlajd - 1);
+        }
+	  }
+	  function stopAutoplay(){
+		clearInterval(intervalId0, intervalId1)
+	  }
+	  
+    </script>
+  </body>
+</html>
