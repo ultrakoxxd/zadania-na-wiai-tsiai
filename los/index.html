@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>los</title>
 	<style type="text/css">
-		#wynikP{
+		#wynik{
 			align: center;
 			border-radius: 5px;
 			border-style: solid;
@@ -20,9 +20,9 @@
 </head>
 <body>
 	<input type="button" name="los" id="losuj">
-<div id="wynikP">
+
 	<div id="wynik"></div>
-</div>
+
 	<script type="text/javascript">
 		let losujBtn = document.getElementById('losuj');
 		let wynikDiv = document.getElementById('wynik');
@@ -33,17 +33,6 @@
 			
 		for(let step = 0; step <6; step++){
 			let los = Math.floor(Math.random() * 49) + 1;
-
-			random = Number(los);
-
-			if(!wyniki.includes(random)){
-				wyniki.push(random);
-				return random;
-			} else {
-				if (wyniki.lenght < 50) {
-					return function(50);
-				}
-			}
 
 			wyniki.push(los);
 			console.log(wyniki);
