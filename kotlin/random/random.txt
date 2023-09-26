@@ -9,7 +9,7 @@ fun losuj(kolumn: Int, wiersze: Int){
 	for(x in 1..kolumny){
 		println()
 		for(y in 1..wiersze){
-		print("${cus(50,100)}")
+			print("${cus(50,100)}")
 		}
 	}
 }
