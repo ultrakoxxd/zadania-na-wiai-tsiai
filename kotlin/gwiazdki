@@ -1,0 +1,14 @@
+
+fun main(){
+	println(gwiazdki(3,3))
+}
+
+fun gwiazdki(kolumn: Int, wiersze: Int){
+
+	for(x in 1..kolumny){
+		println()
+		for(y in 1..wiersze){
+		print("*")
+		}
+	}
+}
