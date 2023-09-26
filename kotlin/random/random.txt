@@ -1,0 +1,18 @@
+import java.util.Random()
+
+fun main(){
+	println(losuj(3,3))
+}
+
+fun losuj(kolumn: Int, wiersze: Int){
+
+	for(x in 1..kolumny){
+		println()
+		for(y in 1..wiersze){
+		print("${cus(50,100)}")
+		}
+	}
+}
+fun cus(min: Int, max: Int): Int{
+	return Random().nextInt((max + 1) - min) + min
+}
